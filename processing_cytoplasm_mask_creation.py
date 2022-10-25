@@ -9,7 +9,9 @@ import matplotlib as mpl
 mpl.rcParams['figure.dpi'] = 300
 #%%
 
-path_dataset =  Path(r"Z:\0-Projects and Experiments\TQ - cardiomyocyte maturation\datasets\H9")
+# path_dataset =  Path(r"Z:\0-Projects and Experiments\TQ - cardiomyocyte maturation\datasets\H9")
+
+path_dataset =  Path(r"Z:\0-Projects and Experiments\TQ - cardiomyocyte maturation\datasets\Long QT")
 
 list_path_masks_cell = list(path_dataset.rglob("*_mask_cell.tiff"))
 
@@ -38,3 +40,11 @@ for path_mask_cell in list_path_masks_cell:
     ax[2].set_title('cyto')
     ax[2].imshow(mask_cyto)
     plt.show()
+    
+    filename_cyto = path_mask_cell.stem.rsplit('_',1)[0] + "_cyto.tiff"
+    ## save mask 
+    # tifffile.imwrite(path_mask_cell.parent / filename_cyto, mask_cyto)
+    
+    
+    
+    

@@ -19,7 +19,6 @@ if __name__ == "__main__":
     
     list_files = list(path_dataset.rglob("*n_photons.asc"))
     
-
     # files = list(p.glob("*n_photons.tiff"))
     
     ## parameters 
@@ -38,7 +37,7 @@ if __name__ == "__main__":
         dict_Cellpose_params = {
             "gpu" : True,
             # 'model_type' : 'cyto2', # H9
-            'pretrained_model' : r'Z:\0-segmentation\cellpose\COBA\Models\Adherent Cell\AdherentCells.zip',
+            'pretrained_model' : r'Z:\0-segmentation\cellpose\COBA\Models\Adherent Cell\AdherentCells.zip', # LongQT
             'net_avg' : True,
             }
         
@@ -97,7 +96,7 @@ if __name__ == "__main__":
     # >>> io.save_to_png(imgs, masks, flows, files)
     
     # or in a loop
-    for chan, filename in zip(channels*len(list_files), list_files[-1:]):
+    for chan, filename in zip(channels*len(list_files), list_files[:]):
         pass
         img = load_image(filename)
         # masks, flows, styles, diams = model.eval(img, diameter=None, channels=chan)
@@ -118,7 +117,7 @@ if __name__ == "__main__":
         if not path_masks_folder.exists():
             path_masks_folder.mkdir(exist_ok=True)
         
-        # tifffile.imwrite( path_masks_folder / filename_mask, masks)
+        tifffile.imwrite( path_masks_folder / filename_mask, masks) 
         
     #%%
     
