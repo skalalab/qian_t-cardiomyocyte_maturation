@@ -25,9 +25,9 @@ path_dataset = Path(r"/mnt/Z/0-Projects and Experiments/TQ - cardiomyocyte matur
 
 list_timepoint_folders = [p for p in path_dataset.glob("*") if p.is_dir()]
 
-for path_timepoint_dir in tqdm(list_timepoint_folders):
+for path_timepoint_dir in tqdm(list_timepoint_folders[:]):
     pass
-
+    
     path_timepoint_masks = path_timepoint_dir / "masks/edited"
     list_path_masks_cell = list(path_timepoint_masks.rglob("*_mask_cell.tif"))
     
@@ -35,6 +35,9 @@ for path_timepoint_dir in tqdm(list_timepoint_folders):
         pass
         print(path_mask_cell.name)
         mask_cell = tifffile.imread(path_mask_cell)
+        
+        # plt.imshow(mask_cell)
+        # plt.show()
         
         props = regionprops(mask_cell)
         
