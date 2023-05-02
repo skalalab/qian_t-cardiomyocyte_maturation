@@ -11,6 +11,9 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+import matplotlib as mpl
+mpl.rcParams['figure.dpi'] = 300
+
 path_dataset = Path(r"Z:\0-Projects and Experiments\TQ - cardiomyocyte maturation\datasets\RNA Seq")
 path_csv = path_dataset / "RNAseq_normalized_heatmap.csv"
 all_df = pd.read_csv(path_csv)
@@ -22,12 +25,26 @@ all_df = pd.read_csv(path_csv)
 #tree_kws=None, **kwargs)
 
 
+
 list_cols = list(all_df.keys())
 list_cols.remove("Category")
 list_cols.remove("Gene")
 list_cols.remove("H9-D20")
-sns.clustermap(all_df[list_cols], method = 'average', metric='euclidean', z_score=1, cmap="inferno", vmin=-2, vmax=8, 
-               dendrogram_ratio=(.2, .15), cbar_pos=(0.03, .2, .05, .4))
+# fig, ax = plt.subplots(figsize=(15,50))
+
+
+# plt.figure(figsize=(2,4))
+sns.clustermap(all_df[list_cols], 
+                            method = 'average', 
+                            metric='euclidean', 
+                            z_score=1, 
+                            cmap="inferno", 
+                            vmin=-2, 
+                            vmax=8, 
+                            dendrogram_ratio=(.2, .1), 
+                            cbar_pos=(0.03, .2, .05, .4),
+                            yticklabels=all_df['Gene'].values,
+                            figsize = (8, 20)
+                            )
+
 plt.show()
-# sns.heatmap(all_df[list_cols], method='average')
-# plt.show() 
