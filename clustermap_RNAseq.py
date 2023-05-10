@@ -25,26 +25,39 @@ all_df = pd.read_csv(path_csv)
 #tree_kws=None, **kwargs)
 
 
-
 list_cols = list(all_df.keys())
+
+
 list_cols.remove("Category")
 list_cols.remove("Gene")
-list_cols.remove("H9-D20")
-# fig, ax = plt.subplots(figsize=(15,50))
+
+# remove weird valuee
+all_df = all_df[~all_df['Gene'].isin(['ACTN2'])]
 
 
-# plt.figure(figsize=(2,4))
+# list_cols.remove("H9-D20")
+
+# b = all_df[all_df ==1]
+# b.groupby(["Gene"]).mean()
+# b.groupby(["Gene"]).std()
+
+
 sns.clustermap(all_df[list_cols], 
-                            method = 'average', 
-                            metric='euclidean', 
-                            z_score=1, 
-                            cmap="inferno", 
-                            vmin=-2, 
-                            vmax=8, 
-                            dendrogram_ratio=(.2, .1), 
-                            cbar_pos=(0.03, .2, .05, .4),
-                            yticklabels=all_df['Gene'].values,
-                            figsize = (8, 20)
-                            )
+            method = 'average', 
+            metric='euclidean', 
+            z_score=0, 
+            # standard_scale=0, 
+            cmap="inferno", 
+            vmin=-2, 
+            vmax=8, 
+            dendrogram_ratio=(.2, .1), 
+            cbar_pos=(0.03, .2, .05, .4),
+            yticklabels=all_df['Gene'].values,
+            figsize = (8, 20)
+            )
 
 plt.show()
+
+#%%%
+
+
