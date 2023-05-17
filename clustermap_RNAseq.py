@@ -46,6 +46,7 @@ list_cols.remove("Gene")
 sns.clustermap(all_df[list_cols], 
             method = 'centroid', 
             metric='euclidean', 
+            row_cluster=False,
             # z_score=0, 
             # standard_scale=0, 
             cmap="inferno", 
