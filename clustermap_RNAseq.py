@@ -24,7 +24,6 @@ all_df = pd.read_csv(path_csv)
 # mask=None, dendrogram_ratio=0.2, colors_ratio=0.03, cbar_pos=(0.02, 0.8, 0.05, 0.18), 
 #tree_kws=None, **kwargs)
 
-
 list_cols = list(all_df.keys())
 
 
@@ -32,7 +31,7 @@ list_cols.remove("Category")
 list_cols.remove("Gene")
 
 # remove weird valuee
-all_df = all_df[~all_df['Gene'].isin(['ACTN2'])]
+# all_df = all_df[~all_df['Gene'].isin(['ACTN2'])]
 
 
 # list_cols.remove("H9-D20")
@@ -42,10 +41,12 @@ all_df = all_df[~all_df['Gene'].isin(['ACTN2'])]
 # b.groupby(["Gene"]).std()
 
 
+# linkage methods = ["average", "weighted","centroid", "median"]
+
 sns.clustermap(all_df[list_cols], 
-            method = 'average', 
+            method = 'centroid', 
             metric='euclidean', 
-            z_score=0, 
+            # z_score=0, 
             # standard_scale=0, 
             cmap="inferno", 
             vmin=-2, 
@@ -55,7 +56,6 @@ sns.clustermap(all_df[list_cols],
             yticklabels=all_df['Gene'].values,
             figsize = (8, 20)
             )
-
 plt.show()
 
 #%%%
