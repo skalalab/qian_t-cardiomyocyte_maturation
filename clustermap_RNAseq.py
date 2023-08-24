@@ -31,7 +31,7 @@ list_cols.remove("Category")
 list_cols.remove("Gene")
 
 # remove weird valuee
-# all_df = all_df[~all_df['Gene'].isin(['ACTN2'])]
+all_df = all_df[~all_df['Gene'].isin(['ACTN2'])]
 
 
 # list_cols.remove("H9-D20")
@@ -43,11 +43,14 @@ list_cols.remove("Gene")
 
 # linkage methods = ["average", "weighted","centroid", "median"]
 
+method = 'average'
+metric='euclidean'
+
 sns.clustermap(all_df[list_cols], 
-            method = 'centroid', 
-            metric='euclidean', 
+            method = method, 
+            metric=metric, 
             row_cluster=False,
-            # z_score=0, 
+            z_score=0, 
             # standard_scale=0, 
             cmap="inferno", 
             vmin=-2, 
@@ -57,6 +60,10 @@ sns.clustermap(all_df[list_cols],
             yticklabels=all_df['Gene'].values,
             figsize = (8, 20)
             )
+
+
+path_output = Path(r"Z:\0-Projects and Experiments\TQ - cardiomyocyte maturation\figures\RNAseq")
+plt.savefig(path_output / f"heatmap_{metric}_{method}.svg")
 plt.show()
 
 #%%%
