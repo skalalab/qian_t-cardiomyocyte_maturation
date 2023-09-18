@@ -20,7 +20,7 @@ mpl.rcParams['figure.dpi'] = 300
 
 # linux 
 # path_dataset = Path(r"/mnt/Z/0-Projects and Experiments/TQ - cardiomyocyte maturation/datasets/H9/DAY 30/masks/Edited")
-path_dataset = Path(r"/mnt/Z/0-Projects and Experiments/TQ - cardiomyocyte maturation/datasets/H9/")
+path_dataset = Path(r"Z:\0-Projects and Experiments\TQ - cardiomyocyte maturation\datasets\HeLa")
 
 
 list_timepoint_folders = [p for p in path_dataset.glob("*") if p.is_dir()]
@@ -28,8 +28,8 @@ list_timepoint_folders = [p for p in path_dataset.glob("*") if p.is_dir()]
 for path_timepoint_dir in tqdm(list_timepoint_folders[:]):
     pass
     
-    path_timepoint_masks = path_timepoint_dir / "masks/edited"
-    list_path_masks_cell = list(path_timepoint_masks.rglob("*_mask_cell.tif"))
+    path_timepoint_masks = path_timepoint_dir
+    list_path_masks_cell = list(path_timepoint_masks.rglob("*_photons_cellpose.tiff"))
     
     for path_mask_cell in tqdm(list_path_masks_cell[:]):
         pass
@@ -89,7 +89,7 @@ for path_timepoint_dir in tqdm(list_timepoint_folders[:]):
         
         
         filename_mask_nuclei = path_mask_cell.stem.rsplit("_",1)[0]
-        mask_nuclei = tifffile.imread(path_mask_cell.parent / f"{filename_mask_nuclei}_nuclei.tif")
+        mask_nuclei = tifffile.imread(path_mask_cell.parent / f"{filename_mask_nuclei}_cellpose_nuclei.tiff")
     
         mask_cyto = mask_cell * np.invert(mask_nuclei > 0)
         

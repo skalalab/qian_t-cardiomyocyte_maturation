@@ -71,9 +71,9 @@ standard_dictionary = {
 
 file_suffixes = {
     "im_photons": "_photons.asc",
-    "mask_cell": "_mask_cell.tiff",
-    "mask_cytoplasm": "_photons_mask_cyto.tiff",
-    "mask_nuclei": "_mask_nuclei.tiff",
+    "mask_cell": "_photons_cellpose.tiff",
+    "mask_cytoplasm": "_photons_cyto.tiff",
+    "mask_nuclei": "_photons_cellpose_nuclei.tiff",
     "a1[%]": "_a1_%_.asc",
     "a2[%]": "_a2_%_.asc",
     "t1": "_t1.asc",
@@ -349,12 +349,12 @@ if __name__ == "__main__":
     pass
     #%% Load dictionary and compute the regionprops omi parameters
 
-    HERE = Path(r"Y:\skala\0-Projects and Experiments\TQ - cardiomyocyte maturation\datasets\H9")
+    HERE = Path(r"Z:\0-Projects and Experiments\TQ - cardiomyocyte maturation\datasets\HeLa")
     # path_dataset = Path(r"C:\Users\econtrerasguzman\Desktop\development\cell_analysis_tools\examples\example_data\redox_ratio")
     # path_output = Path(r"C:\Users\econtrerasguzman\Desktop\development\cell_analysis_tools\examples\regionprops_omi\outputs")
 
     path_dataset = HERE
-    path_output = Path(r"Y:\skala\0-Projects and Experiments\TQ - cardiomyocyte maturation\analysis\H9\outputs")
+    path_output = Path(r"Z:\0-Projects and Experiments\TQ - cardiomyocyte maturation\analysis\HeLa\outputs")
 
     df, incomplete = load_data_create_dict(
         path_dataset=path_dataset, path_output=(path_output / "dictionaries")

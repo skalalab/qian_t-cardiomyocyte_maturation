@@ -62,7 +62,7 @@ sns.clustermap(all_df[list_cols],
             )
 
 
-path_output = Path(r"Z:\0-Projects and Experiments\TQ - cardiomyocyte maturation\figures\RNAseq")
+path_output = Path(r"Z:\0-Projects and Experiments\TQ - cardiomyocyte maturation\figures")
 plt.savefig(path_output / f"heatmap_{metric}_{method}.svg")
 plt.show()
 
