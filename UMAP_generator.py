@@ -129,7 +129,7 @@ from IPython.display import display
 fig = hv.render(overlay, backend='matplotlib')
 display(fig)
 
-##Saves plot as svg file 
+##Saves plot as svg file
 plot = hv.render(overlay)
 plot.output_backend = "svg"
 export_svg(plot, filename = "another-test.svg")
