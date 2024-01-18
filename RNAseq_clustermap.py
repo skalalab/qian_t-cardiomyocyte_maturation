@@ -27,7 +27,6 @@ all_df = pd.read_csv(path_csv)
 
 list_cols = list(all_df.keys())
 
-
 list_cols.remove("Category")
 list_cols.remove("Gene")
 
