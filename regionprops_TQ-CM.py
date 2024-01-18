@@ -2,7 +2,7 @@
 """
 Created on Wed Nov  9 14:39:14 2022
 
-@author: ECG
+@author: ECG, mod by ddesa
 """
 # copy of regionprops code - edited for TQ CM maturation project
 
