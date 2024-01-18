@@ -1,3 +1,6 @@
+#author ddesa
+#Generate cytoplasm masks using whole cell and nuclear masks
+
 from pathlib import Path
 import re
 import tifffile
