@@ -4,6 +4,7 @@ Created on Mon May  1 09:03:09 2023
 
 @author: ddesa
 """
+#old version
 
 from pathlib import Path
 import pandas as pd
