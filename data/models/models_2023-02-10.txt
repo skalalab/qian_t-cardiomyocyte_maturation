@@ -1,0 +1,8 @@
+Long QT models trained 2/10/23
+training n=14, from masks hand segmented by TQ
+test n=6
+
+parameters for running:
+
+Whole cell diam=27.8, flow=0.4, 0, 0 thresholds
+Nuclei diam=9.58, flow=0.4, 0, 0 thresholds

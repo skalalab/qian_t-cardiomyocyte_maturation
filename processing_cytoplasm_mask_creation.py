@@ -20,7 +20,7 @@ mpl.rcParams['figure.dpi'] = 300
 
 # linux 
 # path_dataset = Path(r"/mnt/Z/0-Projects and Experiments/TQ - cardiomyocyte maturation/datasets/H9/DAY 30/masks/Edited")
-path_dataset = Path(r"Z:\0-Projects and Experiments\TQ - cardiomyocyte maturation\datasets\HeLa")
+path_dataset = Path(r"Z:\Danielle\Misc\Darcie iPSCs\2023-11-29")
 
 
 list_timepoint_folders = [p for p in path_dataset.glob("*") if p.is_dir()]

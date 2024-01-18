@@ -24,6 +24,7 @@ from sklearn.model_selection import train_test_split
 
 import holoviews as hv
 hv.extension("bokeh")
+from bokeh.io import export_svg
 from holoviews import opts
 from holoviews.plotting import list_cmaps
 import os
@@ -33,7 +34,7 @@ import os
 
 #Read in dataframe    
 path_output = Path(r'Z:\0-Projects and Experiments\TQ - cardiomyocyte maturation\analysis\UMAPs')
-CSV = path_output / 'Last_day.csv'
+CSV = path_output / 'LQT106.csv'
 all_df = pd.read_csv(CSV)
 df_data = all_df.copy()
 
@@ -41,10 +42,10 @@ df_data = all_df.copy()
 
 list_features = [
     # 'nadh_intensity_mean',
-    # "nadh_tau_mean_mean",
-    # "nadh_a2_mean",
-    # "nadh_t1_mean",
-    # "nadh_t2_mean",
+    "nadh_tau_mean_mean",
+    "nadh_a2_mean",
+    "nadh_t1_mean",
+    "nadh_t2_mean",
     # 'fad_intensity_mean',
     "fad_tau_mean_mean",
     "fad_a2_mean",
@@ -112,7 +113,7 @@ overlay.opts(
         width=600, 
         height=600),
     opts.Overlay(
-        title='Last imaging day: FAD',
+        title='test: all FLIM',
         legend_opts={"click_policy": "hide"},
         show_legend=True,
         legend_position='right'
@@ -123,11 +124,13 @@ overlay.opts(
 #%%
 #Saves an interactive holoviews plot as a .HTML file
 pathsave = path_output #Path(os.path.join(path_output, "graphs"))
-hv.save(overlay, pathsave / 'Last day, FAD parameters.html')
-
-
+hv.save(overlay, pathsave / 'another-test.html')
 from IPython.display import display
 fig = hv.render(overlay, backend='matplotlib')
 display(fig)
 
+##Saves plot as svg file 
+plot = hv.render(overlay)
+plot.output_backend = "svg"
+export_svg(plot, filename = "another-test.svg")
 print("UMAP complete")
