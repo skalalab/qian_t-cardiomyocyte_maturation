@@ -58,7 +58,7 @@ sns.clustermap(all_df[list_cols],
             dendrogram_ratio=(.2, .1), 
             cbar_pos=(0.03, .2, .05, .4),
             yticklabels=all_df['Gene'].values,
-            figsize = (8, 20)
+            figsize = (8, 30)
             )
 
 
