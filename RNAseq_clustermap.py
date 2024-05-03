@@ -16,7 +16,7 @@ import matplotlib as mpl
 mpl.rcParams['figure.dpi'] = 300
 
 path_dataset = Path(r"Z:\0-Projects and Experiments\TQ - cardiomyocyte maturation\datasets\RNA Seq")
-path_csv = path_dataset / "RNAseq_normalized_heatmap.csv"
+path_csv = path_dataset / "log2fold_change.csv"
 all_df = pd.read_csv(path_csv)
 
 #seaborn.clustermap(data, pivot_kws=None, method='average', metric='euclidean', 
@@ -50,19 +50,19 @@ sns.clustermap(all_df[list_cols],
             method = method, 
             metric=metric, 
             row_cluster=False,
-            z_score=0, 
+            #z_score=0, 
             # standard_scale=0, 
             cmap="inferno", 
-            vmin=-2, 
-            vmax=8, 
+            vmin=-4, 
+            vmax=4, 
             dendrogram_ratio=(.2, .1), 
             cbar_pos=(0.03, .2, .05, .4),
             yticklabels=all_df['Gene'].values,
-            figsize = (8, 30)
+            figsize = (8, 20)
             )
 
 
-path_output = Path(r"Z:\0-Projects and Experiments\TQ - cardiomyocyte maturation\figures")
+path_output = Path(r"Z:\0-Projects and Experiments\TQ - cardiomyocyte maturation\datasets\RNA Seq")
 plt.savefig(path_output / f"heatmap_{metric}_{method}.svg")
 plt.show()
 
