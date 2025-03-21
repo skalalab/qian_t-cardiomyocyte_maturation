@@ -1,0 +1,127 @@
+---
+title: "umap"
+output: pdf_document
+date: "2025-3-13"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE)
+library(monocle3)
+library(ggplot2)
+library(dplyr)
+# read in data
+expr_matrix <- read.csv("ControlData2.csv")
+expr_matrix2 <- as.matrix(expr_matrix[,-1])
+rownames(expr_matrix2) <- as.matrix(expr_matrix[,1]) #setting first column as row names
+sample_sheet <- read.csv("Phenodata2.csv")
+sample_sheet2 <- as.matrix(sample_sheet[,-1])
+rownames(sample_sheet2) <- as.matrix(sample_sheet[,1]) #setting first column as row names
+gene_annotation <- read.csv("featuredata.csv")
+gene_annotation2 <- as.matrix(gene_annotation[,-1])
+rownames(gene_annotation2) <- as.matrix(gene_annotation[,1]) #setting first column as row names
+cds <- new_cell_data_set(as.matrix(expr_matrix2), cell_metadata = sample_sheet2, gene_metadata = gene_annotation2)
+# partition the cds by class
+cds_h9 <- cds[, colData(cds)$Class == "H9"]
+cds_ucsd <- cds[, colData(cds)$Class != "H9"]
+
+
+plot_umap <- function(cds, color_by, discrete_scale = FALSE, legend="Days") {
+  plot = plot_cells(cds, reduction_method="UMAP", label_groups_by_cluster = FALSE, label_cell_groups=FALSE,label_leaves=FALSE,
+             label_branch_points=FALSE, color_cells_by=color_by) + guides(color = guide_legend(title = legend, override.aes = list(size = 6)))+
+    theme(legend.position = "right", legend.key.size = unit(1, 'cm'), legend.text = element_text(size=12,face = "bold"), legend.title = element_text(size=14,face = "bold")) + theme(plot.title = element_text(hjust = 0.5)) + ggtitle(paste("UMAP colored by", legend, ": UCSD Lines (102, 106)"))
+  if (discrete_scale) {
+    plot = plot + scale_color_viridis_d(option = "plasma")
+  }
+  return(plot)
+}
+
+
+```
+
+
+# Final graphs
+```{r 6a}
+
+cds <- preprocess_cds(cds, num_dim = 8)
+plot_umap <- function(cds, color_by, custom_scale = FALSE, legend="Days") {
+  custom_colors <- c("H9" = "#FFB6C1", "UCSD102" = "#365ABC", "UCSD106" = "#98FB98")
+  plot = plot_cells(cds, reduction_method="UMAP", label_groups_by_cluster = FALSE, label_cell_groups=FALSE,label_leaves=FALSE,
+             label_branch_points=FALSE, color_cells_by=color_by, cell_size=0.8, alpha = 0.5) + guides(color = guide_legend(title = legend, override.aes = list(size = 6, alpha=1.0)))+
+    theme(legend.position = "right", legend.key.size = unit(1, 'cm'), legend.text = element_text(size=12,face = "bold"), legend.title = element_text(size=14,face = "bold")) + theme(plot.title = element_text(hjust = 0.5)) 
+  # remove the black outline
+  #plot = plot + geom_point(aes(color = factor(cds[[color_by]])), size = 2, stroke = 0, alpha = 0.5)
+  
+  if (!custom_scale) {
+    plot = plot + scale_color_viridis_d(option = "plasma")
+  } else {
+    plot = plot + scale_color_manual(values = custom_colors)
+  }
+  return(plot)
+}
+
+cds <- reduce_dimension(cds, preprocess_method = c("PCA"), reduction_method = c("UMAP"))
+umap_by_class <- plot_umap(cds, "Class", TRUE, legend="Cell Line")
+ggsave("umap_by_class.svg", plot = umap_by_class, device = "svg", width = 8, height = 6)
+```
+
+```{r 6c}
+cds_h9 <- preprocess_cds(cds_h9, num_dim = 8)
+cds_h9 <- reduce_dimension(cds_h9, preprocess_method = c("PCA"), reduction_method = c("UMAP"))
+plot_umap <- function(cds, color_by, custom_scale = FALSE, legend="Days") {
+  custom_colors <- c("H9" = "#FFB6C1", "UCSD102" = "#4682B4", "UCSD106" = "#98FB98")
+  plot = plot_cells(cds, reduction_method="UMAP", label_groups_by_cluster = FALSE, label_cell_groups=FALSE,label_leaves=FALSE,
+             label_branch_points=FALSE, color_cells_by=color_by, cell_size=1.2, alpha = 0.5) + guides(color = guide_legend(title = legend, override.aes = list(size = 6, alpha=1.0)))+
+    theme(legend.position = "right", legend.key.size = unit(1, 'cm'), legend.text = element_text(size=12,face = "bold"), legend.title = element_text(size=14,face = "bold")) + theme(plot.title = element_text(hjust = 0.5)) + ggtitle("H9") + 
+  theme(plot.title = element_text(face = "bold"))
+  #plot = plot + geom_point(aes(color = factor(cds[[color_by]])), size = 2, stroke = 0, alpha = 0.5)
+  
+  if (!custom_scale) {
+    plot = plot + scale_color_viridis_d(option = "plasma")
+  } else {
+    plot = plot + scale_color_manual(values = custom_colors)
+  }
+  return(plot)
+}
+umap_h9_time <- plot_umap(cds_h9, "Dayday", FALSE, legend="Day")
+ggsave("umap_h9_time.svg", plot = umap_h9_time, device = "svg", width = 8, height = 6)
+```
+
+```{r 6d}
+cds_ucsd <- preprocess_cds(cds_ucsd, num_dim = 8)
+cds_ucsd <- reduce_dimension(cds_ucsd, preprocess_method = c("PCA"), reduction_method = c("UMAP"))
+plot_umap <- function(cds, color_by, custom_scale = FALSE, legend="Days") {
+  custom_colors <- c("UCSD102" = "#365ABC", "UCSD106" = "#98FB98")
+  plot = plot_cells(cds, reduction_method="UMAP", label_groups_by_cluster = FALSE, label_cell_groups=FALSE,label_leaves=FALSE,
+             label_branch_points=FALSE, color_cells_by=color_by, cell_size=1.0, alpha = 0.5) + guides(color = guide_legend(title = legend, override.aes = list(size = 6, alpha=1.0)))+
+    theme(legend.position = "right", legend.key.size = unit(1, 'cm'), legend.text = element_text(size=12,face = "bold"), legend.title = element_text(size=14,face = "bold")) + theme(plot.title = element_text(hjust = 0.5)) + ggtitle("UCSD 102i-2-1 and UCSD 106i-2-5") + 
+  theme(plot.title = element_text(face = "bold"))
+  #plot = plot + geom_point(aes(color = factor(cds[[color_by]])), size = 2, stroke = 0, alpha = 0.5)
+  
+  if (!custom_scale) {
+    plot = plot + scale_color_viridis_d(option = "plasma")
+  } else {
+    plot = plot + scale_color_manual(values = custom_colors)
+  }
+  return(plot)
+}
+umap_ucsd_time <- plot_umap(cds_ucsd, "Dayday", FALSE, legend="Day")
+ggsave("umap_ucsd_time.svg", plot = umap_ucsd_time, device = "svg", width = 8, height = 6)
+```
+```{r 6b}
+plot_umap <- function(cds, color_by, custom_scale = FALSE, legend="Days") {
+  custom_colors <- c("UCSD102" = "#365ABC", "UCSD106" = "#98FB98")
+  plot = plot_cells(cds, reduction_method="UMAP", label_groups_by_cluster = FALSE, label_cell_groups=FALSE,label_leaves=FALSE,
+             label_branch_points=FALSE, color_cells_by=color_by, cell_size=1.0, alpha = 0.5) + guides(color = guide_legend(title = legend, override.aes = list(size = 6, alpha=1.0)))+
+    theme(legend.position = "right", legend.key.size = unit(1, 'cm'), legend.text = element_text(size=12,face = "bold"), legend.title = element_text(size=14,face = "bold")) + theme(plot.title = element_text(hjust = 0.5)) 
+  #plot = plot + geom_point(aes(color = factor(cds[[color_by]])), size = 2, stroke = 0, alpha = 0.5)
+  
+  if (!custom_scale) {
+    plot = plot + scale_color_viridis_d(option = "plasma")
+  } else {
+    plot = plot + scale_color_manual(values = custom_colors)
+  }
+  return(plot)
+}
+umap_ucsd_class <- plot_umap(cds_ucsd, "Class", TRUE, legend="Cell Line")
+ggsave("umap_ucsd_class.svg", plot = umap_ucsd_class, device = "svg", width = 8, height = 6)
+```
